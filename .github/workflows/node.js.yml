@@ -15,7 +15,9 @@ jobs:
 
     steps:
       - uses: actions/checkout@v2
-        name: Installing dependencies
+        name: Checkout
+
+      - name: Installing dependencies
         run: npm ci
 
       - name: Build project
@@ -25,6 +27,7 @@ jobs:
         env:
           GITHUB_SHA: ${{ githun.sha }}
         run: tar -czf "${GITHUB_SHA}".tar.gz build
+
       - name: Storing artifact
         uses: actions/upload-artifact@v2
         with:
