@@ -17,9 +17,11 @@ import { Timestamp, onSnapshot } from 'firebase/firestore'
 import { AddIcon, SearchIcon } from '@chakra-ui/icons'
 import CreateListModal from '../../components/CreateListModal'
 import CardList from '../../components/CardList'
+import Header from '../../components/Header'
 
 function ListPage() {
   const [list, setList] = useState(null)
+  const [search, setSearch] = useState('')
   const { isOpen, onOpen, onClose } = useDisclosure()
 
   useEffect(() => {
@@ -48,9 +50,7 @@ function ListPage() {
   return (
     <>
       <Flex align='center' justify='flex-start' direction='column'>
-        <Heading as='h2' size='2xl'>
-          FireTask
-        </Heading>
+        <Header />
         {list === null || list.length === 0 ? (
           <Box
             h='500px'
@@ -63,12 +63,14 @@ function ListPage() {
             gap='5px'
           >
             <Heading as='h3' size='lg'>
-              Parece que você não está em nenhuma lista
+              Oops.., Parece que você não está em nenhuma lista
             </Heading>
             <Heading as='h6' size='sm'>
-              Clique no botão abaixo e crie sua lista
+              Clique no botão abaixo e crie sua lista de tarefas
             </Heading>
-            <IconButton colorScheme='teal' icon={<AddIcon />} onClick={() => handleCreateList()} />
+            <Button leftIcon={<AddIcon />} colorScheme='teal' variant='outline' onClick={onOpen}>
+              Crie uma nova Lista
+            </Button>
           </Box>
         ) : (
           <>
@@ -86,7 +88,12 @@ function ListPage() {
                 <InputLeftElement pointerEvents='none'>
                   <SearchIcon color='gray.300' fontSize='20px' />
                 </InputLeftElement>
-                <Input size='md' placeholder='Busque uma lista' />
+                <Input
+                  size='md'
+                  placeholder='Busque uma lista'
+                  value={search}
+                  onChange={(e) => setSearch(e.target.value)}
+                />
               </InputGroup>
               <Button leftIcon={<AddIcon />} colorScheme='teal' variant='outline' onClick={onOpen}>
                 Crie uma nova Lista
@@ -95,9 +102,17 @@ function ListPage() {
             </Box>
             {/* elemento de lista de elementos */}
             <Box display='flex' flexDirection='row' flexWrap='wrap' gap='5px'>
-              {list.map((l) => {
-                return <CardList key={l.id} listId={l.id} listData={l.data} />
-              })}
+              {list
+                .filter((l) => l.data.name.toLowerCase().includes(search))
+                .sort((a, b) => {
+                  return (
+                    new Date(b.data.createdAt.seconds * 1000) -
+                    new Date(a.data.createdAt.seconds * 1000)
+                  )
+                })
+                .map((l) => {
+                  return <CardList key={l.id} listId={l.id} listData={l.data} />
+                })}
             </Box>
           </>
         )}
