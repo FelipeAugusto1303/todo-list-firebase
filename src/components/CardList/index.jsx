@@ -1,12 +1,25 @@
 import { Card, CardBody, CardFooter, CardHeader, Divider, Heading, Text } from '@chakra-ui/react'
 import { format } from 'date-fns'
 import React from 'react'
+import { useNavigate } from 'react-router-dom'
 
 // import { Container } from './styles';
 
-function CardList({ listData }) {
+function CardList({ listData, listId }) {
+  const navigate = useNavigate()
   return (
-    <Card w='400px' h='200px' border='1px solid #000' onClick={() => console.log('opa')}>
+    <Card
+      w='400px'
+      h='200px'
+      border='1px solid #000'
+      onClick={() =>
+        navigate('task', {
+          state: {
+            listId: listId,
+          },
+        })
+      }
+    >
       <CardHeader>
         <Heading size='md'>{listData.name}</Heading>
       </CardHeader>

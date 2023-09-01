@@ -22,8 +22,6 @@ function ListPage() {
   const [list, setList] = useState(null)
   const { isOpen, onOpen, onClose } = useDisclosure()
 
-  console.log('listas encontradas: ', list)
-
   useEffect(() => {
     const q = findAllLists('felipe')
     onSnapshot(q, (querySnapshot) => {
@@ -98,7 +96,7 @@ function ListPage() {
             {/* elemento de lista de elementos */}
             <Box display='flex' flexDirection='row' flexWrap='wrap' gap='5px'>
               {list.map((l) => {
-                return <CardList listData={l.data} />
+                return <CardList key={l.id} listId={l.id} listData={l.data} />
               })}
             </Box>
           </>
