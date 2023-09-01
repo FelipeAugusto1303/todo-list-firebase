@@ -16,6 +16,7 @@ import { createList, findAllLists } from '../../services/firebaseService'
 import { Timestamp, onSnapshot } from 'firebase/firestore'
 import { AddIcon, SearchIcon } from '@chakra-ui/icons'
 import CreateListModal from '../../components/CreateListModal'
+import CardList from '../../components/CardList'
 
 function ListPage() {
   const [list, setList] = useState(null)
@@ -95,6 +96,11 @@ function ListPage() {
               <Divider orientation='horizontal' />
             </Box>
             {/* elemento de lista de elementos */}
+            <Box display='flex' flexDirection='row' flexWrap='wrap' gap='5px'>
+              {list.map((l) => {
+                return <CardList listData={l.data} />
+              })}
+            </Box>
           </>
         )}
       </Flex>
