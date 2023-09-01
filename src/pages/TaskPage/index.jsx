@@ -73,8 +73,13 @@ function TaskPage() {
             <Heading as='h6' size='sm'>
               Clique no botão abaixo e crie sua lista de tarefas
             </Heading>
-            <Button leftIcon={<AddIcon />} colorScheme='teal' variant='outline'>
-              Crie uma nova Lista
+            <Button
+              leftIcon={<AddIcon />}
+              colorScheme='teal'
+              variant='outline'
+              onClick={() => handleCreateTask()}
+            >
+              Crie uma nova tarefa
             </Button>
           </Box>
         ) : (

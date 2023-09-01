@@ -18,11 +18,17 @@ import { AddIcon, SearchIcon } from '@chakra-ui/icons'
 import CreateListModal from '../../components/CreateListModal'
 import CardList from '../../components/CardList'
 import Header from '../../components/Header'
+import { signInWithPopup } from 'firebase/auth'
+import { auth, provider } from '../../services/firebaseAPI'
 
 function ListPage() {
   const [list, setList] = useState(null)
   const [search, setSearch] = useState('')
   const { isOpen, onOpen, onClose } = useDisclosure()
+
+  const handleLogin = () => {
+    signInWithPopup(auth, provider).then((data) => console.log(data))
+  }
 
   useEffect(() => {
     const q = findAllLists('felipe')
@@ -84,6 +90,7 @@ function ListPage() {
               marginBottom='50px'
               gap='20px'
             >
+              <Button onClick={() => handleLogin()}>Login com Google</Button>
               <InputGroup>
                 <InputLeftElement pointerEvents='none'>
                   <SearchIcon color='gray.300' fontSize='20px' />
