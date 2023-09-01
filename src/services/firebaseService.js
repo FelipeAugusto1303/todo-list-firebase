@@ -1,4 +1,4 @@
-import { getDocs, collection, addDoc, query } from 'firebase/firestore'
+import { getDocs, collection, addDoc, query, where } from 'firebase/firestore'
 import { db } from './firebaseAPI'
 
 const COLLECTION_LIST_NAME = 'todolist'
