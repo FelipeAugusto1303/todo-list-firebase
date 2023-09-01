@@ -12,25 +12,26 @@ function App() {
   console.log('tasks ===> ', task)
 
   const addTask = () => {
-    createTask({
-      title: 'titulo teste',
-      description: 'descrição teste',
-      completed: false,
-      createdAt: Timestamp.now(),
-    })
+    // createTask({
+    //   title: 'titulo teste',
+    //   description: 'descrição teste',
+    //   completed: false,
+    //   createdAt: Timestamp.now(),
+    // })
+    console.log('opa')
   }
 
-  useEffect(() => {
-    const q = findAllLists('user1')
-    onSnapshot(q, (querySnapshot) => {
-      setTask(
-        querySnapshot.docs.map((doc) => ({
-          id: doc.id,
-          data: doc.data(),
-        }))
-      )
-    })
-  }, [])
+  // useEffect(() => {
+  //   const q = findAllLists('user1')
+  //   onSnapshot(q, (querySnapshot) => {
+  //     setTask(
+  //       querySnapshot.docs.map((doc) => ({
+  //         id: doc.id,
+  //         data: doc.data(),
+  //       }))
+  //     )
+  //   })
+  // }, [])
 
   return (
     <>
