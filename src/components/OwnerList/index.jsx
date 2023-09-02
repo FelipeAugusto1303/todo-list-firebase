@@ -83,8 +83,11 @@ function OwnerList({ worker, setWorker, listId, listUsers, setUpdateList }) {
       <Box w='100%' display='flex' flexDirection='row' alignItems='center' gap='10px' mt='10px'>
         <Text>Colaboradores: </Text>
         {avatarUsers.length > 0 &&
-          avatarUsers.map((avatar) => (
-            <Tooltip label={avatar.name === 'Usuário desconhecido' ? avatar.email : avatar.name}>
+          avatarUsers.map((avatar, index) => (
+            <Tooltip
+              key={index}
+              label={avatar.name === 'Usuário desconhecido' ? avatar.email : avatar.name}
+            >
               <Avatar size='sm' src={avatar.photoURL} />
             </Tooltip>
           ))}
