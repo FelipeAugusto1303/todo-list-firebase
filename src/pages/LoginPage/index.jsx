@@ -1,17 +1,16 @@
 import { Button, Flex, Heading, Text } from '@chakra-ui/react'
 import { Google, LocalFireDepartment } from '@mui/icons-material'
 import React, { useEffect, useState } from 'react'
-import { Navigate, useNavigate } from 'react-router-dom'
+import { Navigate, useLocation, useNavigate } from 'react-router-dom'
 import { UserAuth } from '../../context/AuthContext'
 
 function LoginPage() {
   const { googleSignIn, user } = UserAuth()
-  const [flag, setFlag] = useState(false)
   const navigate = useNavigate()
+  const location = useLocation()
 
   const handleGoogleSignIn = async () => {
     try {
-      setFlag(true)
       await googleSignIn()
     } catch (err) {
       console.log(err)
@@ -19,7 +18,7 @@ function LoginPage() {
   }
 
   useEffect(() => {
-    if (user !== null && flag) {
+    if (user !== null && !location.status?.mode) {
       navigate('/todo-list-firebase/list')
     }
   }, [user])

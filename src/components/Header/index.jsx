@@ -25,7 +25,11 @@ function Header() {
   const handleSignOut = async () => {
     try {
       await logOut()
-      navigate('/todo-list-firebase')
+      navigate('/todo-list-firebase', {
+        state: {
+          mode: 'logout',
+        },
+      })
     } catch (error) {
       console.log(error)
     }
@@ -53,58 +57,64 @@ function Header() {
   }, [listUser])
 
   return (
-    <Box
-      display='flex'
-      flexDirection='row'
-      alignItems='center'
-      justifyContent='space-between'
-      w='100%'
-    >
-      <Box display='flex' flexDirection='row' alignItems='center' justifyContent='center'>
-        <Heading as='h6' size='sm'>
-          FireTask <LocalFireDepartment fontSize='20px' color='red' />
-        </Heading>
-      </Box>
-      <Box position='relative'>
-        <Image
-          src={user.photoURL}
-          boxSize='30px'
-          borderRadius='40px'
-          onClick={() => setUserMenu((prev) => !prev)}
-        />
-        <Modal isOpen={userMenu}>
-          <ModalOverlay>
-            <ModalContent>
-              <ModalBody>
-                <Box
-                  display='flex'
-                  flexDirection='column'
-                  alignItems='center'
-                  bg='#fff'
-                  right='0'
-                  zIndex='1'
-                  gap='20px'
-                >
-                  <Image src={user.photoURL} boxSize='100px' borderRadius='100px' mt='20px' />
-                  <Heading as='h6' size='md'>
-                    olá, {user.displayName}
-                  </Heading>
-                  <Button
-                    colorScheme='red'
-                    variant='outline'
-                    width='250px'
-                    borderRadius='20px'
-                    onClick={handleSignOut}
+    user && (
+      <Box
+        display='flex'
+        flexDirection='row'
+        alignItems='center'
+        justifyContent='space-between'
+        w='100%'
+      >
+        <Box display='flex' flexDirection='row' alignItems='center' justifyContent='center'>
+          <Heading as='h6' size='sm'>
+            FireTask <LocalFireDepartment fontSize='20px' color='red' />
+          </Heading>
+        </Box>
+        <Box position='relative'>
+          <Image
+            src={
+              user
+                ? user.photoURL
+                : 'https://i.pinimg.com/280x280_RS/59/af/9c/59af9cd100daf9aa154cc753dd58316d.jpg'
+            }
+            boxSize='30px'
+            borderRadius='40px'
+            onClick={() => setUserMenu((prev) => !prev)}
+          />
+          <Modal isOpen={userMenu}>
+            <ModalOverlay>
+              <ModalContent>
+                <ModalBody>
+                  <Box
+                    display='flex'
+                    flexDirection='column'
+                    alignItems='center'
+                    bg='#fff'
+                    right='0'
+                    zIndex='1'
+                    gap='20px'
                   >
-                    Sair
-                  </Button>
-                </Box>
-              </ModalBody>
-            </ModalContent>
-          </ModalOverlay>
-        </Modal>
+                    <Image src={user.photoURL} boxSize='100px' borderRadius='100px' mt='20px' />
+                    <Heading as='h6' size='md'>
+                      olá, {user.displayName}
+                    </Heading>
+                    <Button
+                      colorScheme='red'
+                      variant='outline'
+                      width='250px'
+                      borderRadius='20px'
+                      onClick={handleSignOut}
+                    >
+                      Sair
+                    </Button>
+                  </Box>
+                </ModalBody>
+              </ModalContent>
+            </ModalOverlay>
+          </Modal>
+        </Box>
       </Box>
-    </Box>
+    )
   )
 }
 
