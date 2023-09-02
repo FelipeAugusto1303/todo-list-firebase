@@ -37,8 +37,6 @@ function TaskPage() {
   const { isOpen, onOpen, onClose } = useDisclosure()
   const { user } = UserAuth()
 
-  console.log(listUsers, '-----')
-
   useEffect(() => {
     if (!location.state.listId) {
       navigate('/todo-list-firebase/list')
@@ -86,7 +84,7 @@ function TaskPage() {
     user && (
       <>
         <Flex align='center' justify='flex-start' direction='column'>
-          <Header />
+          <Header goback />
           {tasks === null || tasks.length === 0 ? (
             <Box
               h='500px'

@@ -7,14 +7,10 @@ import { onSnapshot } from 'firebase/firestore'
 function OwnerList({ worker, setWorker, listId, listUsers, setUpdateList }) {
   const [usersData, setUsersData] = useState([])
   const [avatarUsers, setAvatarUsers] = useState([])
-  console.log('listUsers', listUsers)
-  console.log('usersData', usersData)
-  console.log('avatarUsers', avatarUsers)
 
   const removeDuplicates = (arr) => {
     const temp = []
     arr.forEach((element) => {
-      console.log(element)
       if (temp.filter((t) => t.email === element.email).length === 0) {
         temp.push(element)
       }

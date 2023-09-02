@@ -1,4 +1,4 @@
-import { collection, addDoc, query, where, doc, updateDoc } from 'firebase/firestore'
+import { collection, addDoc, query, where, doc, updateDoc, deleteDoc } from 'firebase/firestore'
 import { db } from './firebaseAPI'
 
 const COLLECTION_LIST_NAME = 'todolist'
@@ -38,4 +38,12 @@ export const addUsersToList = async (listId, body) => {
 
 export const updateTask = async (listId, taskId, body) => {
   return await updateDoc(doc(db, COLLECTION_LIST_NAME, listId, COLLECTION_TASK_NAME, taskId), body)
+}
+
+export const deleteList = async (listId) => {
+  return await deleteDoc(doc(db, COLLECTION_LIST_NAME, listId))
+}
+
+export const deleteTask = async (listId, taskId) => {
+  return await deleteDoc(doc(db, COLLECTION_LIST_NAME, listId, COLLECTION_TASK_NAME, taskId))
 }

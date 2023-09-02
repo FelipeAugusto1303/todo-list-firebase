@@ -15,8 +15,9 @@ import { UserAuth } from '../../context/AuthContext'
 import { useNavigate } from 'react-router-dom'
 import { createUser, getUser } from '../../services/firebaseService'
 import { onSnapshot } from 'firebase/firestore'
+import { ArrowBackIcon } from '@chakra-ui/icons'
 
-function Header() {
+function Header({ goback = false }) {
   const { logOut, user } = UserAuth()
   const [listUser, setListUser] = useState(null)
   const [userMenu, setUserMenu] = useState(false)
@@ -65,7 +66,14 @@ function Header() {
         justifyContent='space-between'
         w='100%'
       >
-        <Box display='flex' flexDirection='row' alignItems='center' justifyContent='center'>
+        <Box
+          display='flex'
+          flexDirection='row'
+          alignItems='center'
+          justifyContent='center'
+          gap='5px'
+        >
+          {goback && <ArrowBackIcon onClick={() => navigate(-1)} />}
           <Heading as='h6' size='sm'>
             FireTask <LocalFireDepartment fontSize='20px' color='red' />
           </Heading>

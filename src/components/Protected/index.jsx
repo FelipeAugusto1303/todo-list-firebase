@@ -5,7 +5,6 @@ import { UserAuth } from '../../context/AuthContext'
 const Protected = ({ children }) => {
   const { user } = UserAuth()
   const navigate = useNavigate()
-  console.log(user)
   if (!user) {
     navigate('/todo-list-firebase/')
   }

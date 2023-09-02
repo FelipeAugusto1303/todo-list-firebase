@@ -11,7 +11,7 @@ import { auth } from '../services/firebaseAPI'
 const AuthContext = createContext()
 
 export const AuthContextProvider = ({ children }) => {
-  const [user, setUser] = useState(null)
+  const [user, setUser] = useState(JSON.parse(localStorage.getItem('user')))
 
   const googleSignIn = () => {
     const provider = new GoogleAuthProvider()
@@ -20,11 +20,13 @@ export const AuthContextProvider = ({ children }) => {
 
   const logOut = () => {
     signOut(auth)
+    localStorage.clear()
   }
 
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, (currentUser) => {
       setUser(currentUser)
+      localStorage.setItem('user', JSON.stringify(currentUser))
     })
     return () => {
       unsubscribe()

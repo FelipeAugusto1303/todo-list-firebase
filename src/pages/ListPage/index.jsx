@@ -25,7 +25,6 @@ function ListPage() {
   const [search, setSearch] = useState('')
   const { isOpen, onOpen, onClose } = useDisclosure()
   const { user } = UserAuth()
-  console.log(user, '----')
 
   useEffect(() => {
     if (user !== null) {
