@@ -24,6 +24,7 @@ import { AddIcon, SearchIcon } from '@chakra-ui/icons'
 import CardTask from '../../components/CardTask'
 import CreateTaskModal from '../../components/CreateTaskModal'
 import { UserAuth } from '../../context/AuthContext'
+import OwnerList from '../../components/OwnerList'
 
 function TaskPage() {
   const location = useLocation()
@@ -35,6 +36,8 @@ function TaskPage() {
   const [worker, setWorker] = useState('')
   const { isOpen, onOpen, onClose } = useDisclosure()
   const { user } = UserAuth()
+
+  console.log(listUsers, '-----')
 
   useEffect(() => {
     if (!location.state.listId) {
@@ -79,107 +82,97 @@ function TaskPage() {
     onClose()
   }
 
-  const handleAddUser = () => {
-    addUsersToList(location.state.listId, {
-      users: [...listUsers, worker],
-    })
-    setWorker('')
-    setUpdateList((prev) => !prev)
-  }
-
   return (
-    <>
-      <Flex align='center' justify='flex-start' direction='column'>
-        <Header />
-        {tasks === null || tasks.length === 0 ? (
-          <Box
-            h='500px'
-            display='flex'
-            flexDirection='column'
-            align='center'
-            justifyContent='center'
-            marginTop='80px'
-            marginBottom='50px'
-            gap='15px'
-          >
-            <Heading as='h3' size='lg'>
-              Oops.., Parece que você não tem nenhuma tarefa
-            </Heading>
-            <Text>Clique no botão abaixo e crie sua lista de tarefas</Text>
-            <Button leftIcon={<AddIcon />} colorScheme='teal' variant='outline' onClick={onOpen}>
-              Crie uma nova tarefa
-            </Button>
-          </Box>
-        ) : (
-          <>
+    user && (
+      <>
+        <Flex align='center' justify='flex-start' direction='column'>
+          <Header />
+          {tasks === null || tasks.length === 0 ? (
             <Box
-              w='100%'
-              display='flex'
-              flexDirection='row'
-              alignItems='center'
-              justifyContent='center'
-            >
-              <Input
-                size='md'
-                placeholder='adicione outros colaboradores a lista'
-                value={worker}
-                onChange={(e) => setWorker(e.target.value)}
-              />
-              <Button colorScheme='teal' leftIcon={<AddIcon />} onClick={() => handleAddUser()}>
-                Adicionar
-              </Button>
-            </Box>
-            <Box
-              w='100%'
+              h='500px'
               display='flex'
               flexDirection='column'
               align='center'
-              justifyContent='flex-start'
+              justifyContent='center'
               marginTop='80px'
               marginBottom='50px'
-              gap='20px'
+              gap='15px'
             >
-              <InputGroup>
-                <InputLeftElement pointerEvents='none'>
-                  <SearchIcon color='gray.300' fontSize='20px' />
-                </InputLeftElement>
-                <Input
-                  size='md'
-                  placeholder='Busque uma tarefa'
-                  value={search}
-                  onChange={(e) => setSearch(e.target.value)}
-                />
-              </InputGroup>
+              <Heading as='h3' size='lg'>
+                Oops.., Parece que você não tem nenhuma tarefa
+              </Heading>
+              <Text>Clique no botão abaixo e crie sua lista de tarefas</Text>
               <Button leftIcon={<AddIcon />} colorScheme='teal' variant='outline' onClick={onOpen}>
                 Crie uma nova tarefa
               </Button>
-              <Divider orientation='horizontal' />
             </Box>
-            {/* elemento de lista de elementos */}
-            <Box display='flex' flexDirection='column' w='100%' gap='5px'>
-              {tasks
-                .filter((task) => task.data.title.toLowerCase().includes(search))
-                .sort((a, b) => {
-                  return (
-                    new Date(b.data.createdAt.seconds * 1000) -
-                    new Date(a.data.createdAt.seconds * 1000)
-                  )
-                })
-                .map((task) => {
-                  return (
-                    <CardTask
-                      taskData={task.data}
-                      listId={location.state.listId}
-                      taskId={task.id}
-                    />
-                  )
-                })}
-            </Box>
-          </>
-        )}
-      </Flex>
-      <CreateTaskModal isOpen={isOpen} onClose={onClose} handleCreate={handleCreateTask} />
-    </>
+          ) : (
+            <>
+              <OwnerList
+                worker={worker}
+                setWorker={setWorker}
+                listId={location.state.listId}
+                listUsers={listUsers}
+                setUpdateList={setUpdateList}
+              />
+              <Box
+                w='100%'
+                display='flex'
+                flexDirection='column'
+                align='center'
+                justifyContent='flex-start'
+                marginTop='40px'
+                marginBottom='50px'
+                gap='20px'
+              >
+                <InputGroup>
+                  <InputLeftElement pointerEvents='none'>
+                    <SearchIcon color='gray.300' fontSize='20px' />
+                  </InputLeftElement>
+                  <Input
+                    size='md'
+                    placeholder='Busque uma tarefa'
+                    value={search}
+                    onChange={(e) => setSearch(e.target.value)}
+                  />
+                </InputGroup>
+                <Button
+                  leftIcon={<AddIcon />}
+                  colorScheme='teal'
+                  variant='outline'
+                  onClick={onOpen}
+                >
+                  Crie uma nova tarefa
+                </Button>
+                <Divider orientation='horizontal' />
+              </Box>
+              {/* elemento de lista de elementos */}
+              <Box display='flex' flexDirection='column' w='100%' gap='5px'>
+                {tasks
+                  .filter((task) => task.data.title.toLowerCase().includes(search))
+                  .sort((a, b) => {
+                    return (
+                      new Date(b.data.createdAt.seconds * 1000) -
+                      new Date(a.data.createdAt.seconds * 1000)
+                    )
+                  })
+                  .map((task) => {
+                    return (
+                      <CardTask
+                        key={task.id}
+                        taskData={task.data}
+                        listId={location.state.listId}
+                        taskId={task.id}
+                      />
+                    )
+                  })}
+              </Box>
+            </>
+          )}
+        </Flex>
+        <CreateTaskModal isOpen={isOpen} onClose={onClose} handleCreate={handleCreateTask} />
+      </>
+    )
   )
 }
 

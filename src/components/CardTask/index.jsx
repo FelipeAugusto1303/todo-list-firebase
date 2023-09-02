@@ -21,8 +21,6 @@ function CardTask({ taskData, listId, taskId }) {
   const { isOpen, onToggle } = useDisclosure()
   const { user } = UserAuth()
   const [owner, setOwner] = useState(null)
-  console.log(taskData)
-  console.log(owner)
 
   useEffect(() => {
     const queryUser = getUser(taskData.createBy)
