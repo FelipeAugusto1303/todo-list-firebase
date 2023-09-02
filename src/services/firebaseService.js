@@ -35,3 +35,7 @@ export const createUser = async (body) => {
 export const addUsersToList = async (listId, body) => {
   return await updateDoc(doc(db, COLLECTION_LIST_NAME, listId), body)
 }
+
+export const updateTask = async (listId, taskId, body) => {
+  return await updateDoc(doc(db, COLLECTION_LIST_NAME, listId, COLLECTION_TASK_NAME, taskId), body)
+}

@@ -25,18 +25,21 @@ function ListPage() {
   const [search, setSearch] = useState('')
   const { isOpen, onOpen, onClose } = useDisclosure()
   const { user } = UserAuth()
+  console.log(user, '----')
 
   useEffect(() => {
-    const q = findAllLists(user.email)
-    onSnapshot(q, (querySnapshot) => {
-      setList(
-        querySnapshot.docs.map((doc) => ({
-          id: doc.id,
-          data: doc.data(),
-        }))
-      )
-    })
-  }, [])
+    if (user !== null) {
+      const q = findAllLists(user.email)
+      onSnapshot(q, (querySnapshot) => {
+        setList(
+          querySnapshot.docs.map((doc) => ({
+            id: doc.id,
+            data: doc.data(),
+          }))
+        )
+      })
+    }
+  }, [user])
 
   const handleCreateList = (name) => {
     const body = {
@@ -50,77 +53,84 @@ function ListPage() {
   }
 
   return (
-    <>
-      <Flex align='center' justify='flex-start' direction='column'>
-        <Header />
-        {list === null || list.length === 0 ? (
-          <Box
-            h='500px'
-            display='flex'
-            flexDirection='column'
-            align='center'
-            justifyContent='center'
-            marginTop='80px'
-            marginBottom='50px'
-            gap='5px'
-          >
-            <Heading as='h3' size='lg'>
-              Oops.., Parece que você não está em nenhuma lista
-            </Heading>
-            <Heading as='h6' size='sm'>
-              Clique no botão abaixo e crie sua lista de tarefas
-            </Heading>
-            <Button leftIcon={<AddIcon />} colorScheme='teal' variant='outline' onClick={onOpen}>
-              Crie uma nova Lista
-            </Button>
-          </Box>
-        ) : (
-          <>
+    user && (
+      <>
+        <Flex align='center' justify='flex-start' direction='column'>
+          <Header />
+          {list === null || list.length === 0 ? (
             <Box
-              w='100%'
+              h='500px'
               display='flex'
               flexDirection='column'
               align='center'
-              justifyContent='flex-start'
+              justifyContent='center'
               marginTop='80px'
               marginBottom='50px'
-              gap='20px'
+              gap='5px'
             >
-              <InputGroup>
-                <InputLeftElement pointerEvents='none'>
-                  <SearchIcon color='gray.300' fontSize='20px' />
-                </InputLeftElement>
-                <Input
-                  size='md'
-                  placeholder='Busque uma lista'
-                  value={search}
-                  onChange={(e) => setSearch(e.target.value)}
-                />
-              </InputGroup>
+              <Heading as='h3' size='lg'>
+                Oops.., Parece que você não está em nenhuma lista
+              </Heading>
+              <Heading as='h6' size='sm'>
+                Clique no botão abaixo e crie sua lista de tarefas
+              </Heading>
               <Button leftIcon={<AddIcon />} colorScheme='teal' variant='outline' onClick={onOpen}>
                 Crie uma nova Lista
               </Button>
-              <Divider orientation='horizontal' />
             </Box>
-            {/* elemento de lista de elementos */}
-            <Box display='flex' flexDirection='row' flexWrap='wrap' gap='5px'>
-              {list
-                .filter((l) => l.data.name.toLowerCase().includes(search))
-                .sort((a, b) => {
-                  return (
-                    new Date(b.data.createdAt.seconds * 1000) -
-                    new Date(a.data.createdAt.seconds * 1000)
-                  )
-                })
-                .map((l) => {
-                  return <CardList key={l.id} listId={l.id} listData={l.data} />
-                })}
-            </Box>
-          </>
-        )}
-      </Flex>
-      <CreateListModal isOpen={isOpen} onClose={onClose} handleCreate={handleCreateList} />
-    </>
+          ) : (
+            <>
+              <Box
+                w='100%'
+                display='flex'
+                flexDirection='column'
+                align='center'
+                justifyContent='flex-start'
+                marginTop='80px'
+                marginBottom='50px'
+                gap='20px'
+              >
+                <InputGroup>
+                  <InputLeftElement pointerEvents='none'>
+                    <SearchIcon color='gray.300' fontSize='20px' />
+                  </InputLeftElement>
+                  <Input
+                    size='md'
+                    placeholder='Busque uma lista'
+                    value={search}
+                    onChange={(e) => setSearch(e.target.value)}
+                  />
+                </InputGroup>
+                <Button
+                  leftIcon={<AddIcon />}
+                  colorScheme='teal'
+                  variant='outline'
+                  onClick={onOpen}
+                >
+                  Crie uma nova Lista
+                </Button>
+                <Divider orientation='horizontal' />
+              </Box>
+              {/* elemento de lista de elementos */}
+              <Box display='flex' flexDirection='row' flexWrap='wrap' gap='5px'>
+                {list
+                  .filter((l) => l.data.name.toLowerCase().includes(search))
+                  .sort((a, b) => {
+                    return (
+                      new Date(b.data.createdAt.seconds * 1000) -
+                      new Date(a.data.createdAt.seconds * 1000)
+                    )
+                  })
+                  .map((l) => {
+                    return <CardList key={l.id} listId={l.id} listData={l.data} />
+                  })}
+              </Box>
+            </>
+          )}
+        </Flex>
+        <CreateListModal isOpen={isOpen} onClose={onClose} handleCreate={handleCreateList} />
+      </>
+    )
   )
 }
 

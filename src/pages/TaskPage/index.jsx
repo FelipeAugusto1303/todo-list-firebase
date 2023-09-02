@@ -43,14 +43,16 @@ function TaskPage() {
   }, [])
 
   useEffect(() => {
-    const q = findAllLists(user.email)
-    onSnapshot(q, (querySnapshot) => {
-      setListUsers(
-        ...querySnapshot.docs
-          .filter((doc) => doc.id === location.state.listId)
-          .map((doc) => doc.data().users)
-      )
-    })
+    if (user !== null) {
+      const q = findAllLists(user.email)
+      onSnapshot(q, (querySnapshot) => {
+        setListUsers(
+          ...querySnapshot.docs
+            .filter((doc) => doc.id === location.state.listId)
+            .map((doc) => doc.data().users)
+        )
+      })
+    }
   }, [updateList])
 
   useEffect(() => {
@@ -164,7 +166,13 @@ function TaskPage() {
                   )
                 })
                 .map((task) => {
-                  return <CardTask taskData={task.data} />
+                  return (
+                    <CardTask
+                      taskData={task.data}
+                      listId={location.state.listId}
+                      taskId={task.id}
+                    />
+                  )
                 })}
             </Box>
           </>
