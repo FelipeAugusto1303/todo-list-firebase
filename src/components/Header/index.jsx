@@ -91,8 +91,8 @@ function Header({ goback = false }) {
           />
           <Modal isOpen={userMenu}>
             <ModalOverlay>
-              <ModalContent>
-                <ModalBody>
+              <ModalContent borderRadius='50px'>
+                <ModalBody borderRadius='50px'>
                   <Box
                     display='flex'
                     flexDirection='column'
@@ -101,10 +101,11 @@ function Header({ goback = false }) {
                     right='0'
                     zIndex='1'
                     gap='20px'
+                    p='20px'
                   >
                     <Image src={user.photoURL} boxSize='100px' borderRadius='100px' mt='20px' />
                     <Heading as='h6' size='md'>
-                      olá, {user.displayName}
+                      Olá, {user.displayName}
                     </Heading>
                     <Button
                       colorScheme='red'

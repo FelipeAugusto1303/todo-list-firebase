@@ -88,7 +88,7 @@ function OwnerList({ worker, setWorker, listId, listUsers, setUpdateList }) {
               key={index}
               label={avatar.name === 'Usuário desconhecido' ? avatar.email : avatar.name}
             >
-              <Avatar size='sm' src={avatar.photoURL} />
+              <Avatar size='sm' src={avatar.photoURL} onClick={() => console.log(avatar)} />
             </Tooltip>
           ))}
       </Box>

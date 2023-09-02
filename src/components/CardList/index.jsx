@@ -1,10 +1,12 @@
 import {
   Box,
+  Button,
   Card,
   CardBody,
   CardFooter,
   CardHeader,
   Divider,
+  Flex,
   Heading,
   Image,
   Text,
@@ -13,7 +15,7 @@ import { format } from 'date-fns'
 import React, { useEffect, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { UserAuth } from '../../context/AuthContext'
-import { getUser } from '../../services/firebaseService'
+import { deleteList, getUser } from '../../services/firebaseService'
 import { QuerySnapshot, onSnapshot } from 'firebase/firestore'
 
 // import { Container } from './styles';
@@ -22,6 +24,10 @@ function CardList({ listData, listId }) {
   const navigate = useNavigate()
   const { user } = UserAuth()
   const [userData, setUserData] = useState(null)
+
+  console.log(listData)
+  console.log(user)
+  const isOwner = user.email === listData.createdBy
 
   useEffect(() => {
     const q = getUser(listData.createdBy)
@@ -34,22 +40,30 @@ function CardList({ listData, listId }) {
       )
     })
   }, [])
+
+  const handleDelete = () => {
+    deleteList(listId)
+  }
   return (
-    <Card
-      w='400px'
-      h='200px'
-      border='1px solid #000'
-      onClick={() =>
-        navigate('/todo-list-firebase/task', {
-          state: {
-            listId: listId,
-            listUsers: listData.users,
-          },
-        })
-      }
-    >
+    <Card w='400px' h='250px' border='1px solid #000'>
       <CardHeader>
-        <Heading size='md'>{listData.name}</Heading>
+        <Flex flexDirection='row' alignItems='center' justifyContent='space-between'>
+          <Heading size='md'>{listData.name}</Heading>
+          <Button
+            colorScheme='blue'
+            variant='outline'
+            onClick={() =>
+              navigate('/todo-list-firebase/task', {
+                state: {
+                  listId: listId,
+                  listUsers: listData.users,
+                },
+              })
+            }
+          >
+            Acessar Lista
+          </Button>
+        </Flex>
       </CardHeader>
       <CardBody>
         <Text>
@@ -59,15 +73,27 @@ function CardList({ listData, listId }) {
       <Divider orientation='horizontal' />
       {userData && (
         <CardFooter>
-          <Box
-            display='flex'
+          <Flex
             flexDirection='row'
             alignItems='center'
-            justifyContent='center'
-            gap='10px'
+            justifyContent={isOwner ? 'space-between' : 'flex-start'}
+            w='100%'
           >
-            Criado por: <Image src={userData[0].data.photoURL} boxSize='30px' borderRadius='30px' />
-          </Box>
+            <Flex flexDirection='row' alignItems='center' justifyContent='center' gap='10px'>
+              Criado por:{' '}
+              <Image src={userData[0].data.photoURL} boxSize='30px' borderRadius='30px' />
+            </Flex>
+            {isOwner && (
+              <Flex flexDirection='row' alignItems='center' gap='10px'>
+                <Button colorScheme='red' variant='outline' onClick={() => handleDelete()}>
+                  Excluir
+                </Button>
+                <Button colorScheme='blue' variant='outline'>
+                  Editar
+                </Button>
+              </Flex>
+            )}
+          </Flex>
         </CardFooter>
       )}
     </Card>
