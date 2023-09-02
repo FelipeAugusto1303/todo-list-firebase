@@ -18,20 +18,18 @@ import { AddIcon, SearchIcon } from '@chakra-ui/icons'
 import CreateListModal from '../../components/CreateListModal'
 import CardList from '../../components/CardList'
 import Header from '../../components/Header'
-import { signInWithPopup } from 'firebase/auth'
-import { auth, provider } from '../../services/firebaseAPI'
+import { UserAuth } from '../../context/AuthContext'
 
 function ListPage() {
   const [list, setList] = useState(null)
   const [search, setSearch] = useState('')
   const { isOpen, onOpen, onClose } = useDisclosure()
+  const { user } = UserAuth()
 
-  const handleLogin = () => {
-    signInWithPopup(auth, provider).then((data) => console.log(data))
-  }
+  console.log(user)
 
   useEffect(() => {
-    const q = findAllLists('felipe')
+    const q = findAllLists(user.email)
     onSnapshot(q, (querySnapshot) => {
       setList(
         querySnapshot.docs.map((doc) => ({
@@ -45,8 +43,8 @@ function ListPage() {
   const handleCreateList = (name) => {
     const body = {
       name: name,
-      createdBy: 'felipe',
-      users: ['felipe'],
+      createdBy: user.email,
+      users: [user.email],
       createdAt: Timestamp.now(),
     }
     createList(body)
@@ -90,7 +88,6 @@ function ListPage() {
               marginBottom='50px'
               gap='20px'
             >
-              <Button onClick={() => handleLogin()}>Login com Google</Button>
               <InputGroup>
                 <InputLeftElement pointerEvents='none'>
                   <SearchIcon color='gray.300' fontSize='20px' />
