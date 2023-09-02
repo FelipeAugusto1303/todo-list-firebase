@@ -19,7 +19,7 @@ function LoginPage() {
   }
 
   useEffect(() => {
-    if (user != null && flag) {
+    if (user !== null && flag) {
       navigate('/todo-list-firebase/list')
     }
   }, [user])

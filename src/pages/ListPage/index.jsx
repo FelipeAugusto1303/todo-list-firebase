@@ -26,8 +26,6 @@ function ListPage() {
   const { isOpen, onOpen, onClose } = useDisclosure()
   const { user } = UserAuth()
 
-  console.log(user)
-
   useEffect(() => {
     const q = findAllLists(user.email)
     onSnapshot(q, (querySnapshot) => {

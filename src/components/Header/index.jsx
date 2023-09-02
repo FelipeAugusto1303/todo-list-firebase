@@ -12,7 +12,9 @@ import {
 import { LocalFireDepartment } from '@mui/icons-material'
 import React, { useEffect, useState } from 'react'
 import { UserAuth } from '../../context/AuthContext'
-import { redirect, useNavigate } from 'react-router-dom'
+import { useNavigate } from 'react-router-dom'
+import { createUser, getUser } from '../../services/firebaseService'
+import { onSnapshot } from 'firebase/firestore'
 
 function Header() {
   const { logOut, user } = UserAuth()
@@ -26,7 +28,27 @@ function Header() {
       console.log(error)
     }
   }
-  const [userMenu, setUserMenu] = useState(false)
+
+  useEffect(() => {
+    if (user !== null) {
+      const queryUser = getUser(user.email)
+
+      onSnapshot(queryUser, (querySnapshot) => {
+        setListUser(
+          querySnapshot.docs.map((doc) => ({
+            id: doc.id,
+            data: doc.data(),
+          }))
+        )
+      })
+    }
+  }, [user])
+
+  useEffect(() => {
+    if (listUser !== null && listUser.length === 0) {
+      createUser({ email: user.email, name: user.displayName, photoURL: user.photoURL })
+    }
+  }, [listUser])
 
   return (
     <Box

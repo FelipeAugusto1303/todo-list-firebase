@@ -7,8 +7,6 @@ const Protected = ({ children }) => {
   const navigate = useNavigate()
   if (!user) {
     navigate('/todo-list-firebase/')
-  } else {
-    navigate('/todo-list-firebase/list')
   }
 
   return children

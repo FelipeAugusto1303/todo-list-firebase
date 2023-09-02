@@ -1,4 +1,4 @@
-import { collection, addDoc, query, where, orderBy } from 'firebase/firestore'
+import { collection, addDoc, query, where, orderBy, getDocs } from 'firebase/firestore'
 import { db } from './firebaseAPI'
 
 const COLLECTION_LIST_NAME = 'todolist'
@@ -21,7 +21,7 @@ export const createTask = async (listId, body) => {
   return await addDoc(collection(db, COLLECTION_LIST_NAME, listId, COLLECTION_TASK_NAME), body)
 }
 
-export const getUser = async (email) => {
+export const getUser = (email) => {
   return query(collection(db, COLLECTION_USERS_NAME), where('email', '==', email))
 }
 
