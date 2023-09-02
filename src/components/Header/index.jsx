@@ -18,6 +18,8 @@ import { onSnapshot } from 'firebase/firestore'
 
 function Header() {
   const { logOut, user } = UserAuth()
+  const [listUser, setListUser] = useState(null)
+  const [userMenu, setUserMenu] = useState(false)
   const navigate = useNavigate()
 
   const handleSignOut = async () => {

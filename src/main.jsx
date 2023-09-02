@@ -16,28 +16,28 @@ const router = createBrowserRouter([
   },
   {
     path: '/todo-list-firebase/list',
-    element: <ListPage />,
+    element: (
+      <Protected>
+        <ListPage />
+      </Protected>
+    ),
   },
   {
     path: '/todo-list-firebase/task',
-    element: <TaskPage />,
+    element: (
+      <Protected>
+        <TaskPage />
+      </Protected>
+    ),
   },
 ])
 
 ReactDOM.createRoot(document.getElementById('root')).render(
   <React.StrictMode>
     <ChakraProvider>
-      <BrowserRouter>
-        <AuthContextProvider>
-          <Protected>
-            <Routes>
-              <Route path='/todo-list-firebase/' element={<LoginPage />} />
-              <Route path='/todo-list-firebase/list' element={<ListPage />} />
-              <Route path='/todo-list-firebase/task' element={<TaskPage />} />
-            </Routes>
-          </Protected>
-        </AuthContextProvider>
-      </BrowserRouter>
+      <AuthContextProvider>
+        <RouterProvider router={router} />
+      </AuthContextProvider>
     </ChakraProvider>
   </React.StrictMode>
 )

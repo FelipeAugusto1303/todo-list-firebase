@@ -1,7 +1,7 @@
 import { Button, Flex, Heading, Text } from '@chakra-ui/react'
 import { Google, LocalFireDepartment } from '@mui/icons-material'
 import React, { useEffect, useState } from 'react'
-import { useNavigate } from 'react-router-dom'
+import { Navigate, useNavigate } from 'react-router-dom'
 import { UserAuth } from '../../context/AuthContext'
 
 function LoginPage() {

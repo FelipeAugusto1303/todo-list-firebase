@@ -1,4 +1,4 @@
-import { collection, addDoc, query, where, orderBy, getDocs } from 'firebase/firestore'
+import { collection, addDoc, query, where, doc, updateDoc } from 'firebase/firestore'
 import { db } from './firebaseAPI'
 
 const COLLECTION_LIST_NAME = 'todolist'
@@ -7,6 +7,9 @@ const COLLECTION_USERS_NAME = 'users'
 
 export const findAllLists = (user) => {
   return query(collection(db, COLLECTION_LIST_NAME), where('users', 'array-contains', user))
+}
+export const findAllListsUsers = (id) => {
+  return query(doc(db, COLLECTION_LIST_NAME, id))
 }
 
 export const findAllTasks = (id) => {
@@ -27,4 +30,8 @@ export const getUser = (email) => {
 
 export const createUser = async (body) => {
   return await addDoc(collection(db, COLLECTION_USERS_NAME), body)
+}
+
+export const addUsersToList = async (listId, body) => {
+  return await updateDoc(doc(db, COLLECTION_LIST_NAME, listId), body)
 }

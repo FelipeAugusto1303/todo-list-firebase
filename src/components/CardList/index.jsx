@@ -23,8 +23,6 @@ function CardList({ listData, listId }) {
   const { user } = UserAuth()
   const [userData, setUserData] = useState(null)
 
-  console.log('user data ==> ', listData)
-
   useEffect(() => {
     const q = getUser(listData.createdBy)
     onSnapshot(q, (querySnapshot) => {
@@ -45,6 +43,7 @@ function CardList({ listData, listId }) {
         navigate('/todo-list-firebase/task', {
           state: {
             listId: listId,
+            listUsers: listData.users,
           },
         })
       }

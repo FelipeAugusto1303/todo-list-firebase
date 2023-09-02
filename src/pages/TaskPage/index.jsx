@@ -1,6 +1,11 @@
 import React, { useState, useEffect } from 'react'
 import { useLocation, useNavigate } from 'react-router-dom'
-import { createTask, findAllTasks } from '../../services/firebaseService'
+import {
+  addUsersToList,
+  createTask,
+  findAllLists,
+  findAllTasks,
+} from '../../services/firebaseService'
 import { Timestamp, onSnapshot } from 'firebase/firestore'
 import {
   Box,
@@ -11,22 +16,42 @@ import {
   Input,
   InputGroup,
   InputLeftElement,
+  Text,
+  useDisclosure,
 } from '@chakra-ui/react'
 import Header from '../../components/Header'
 import { AddIcon, SearchIcon } from '@chakra-ui/icons'
 import CardTask from '../../components/CardTask'
+import CreateTaskModal from '../../components/CreateTaskModal'
+import { UserAuth } from '../../context/AuthContext'
 
 function TaskPage() {
   const location = useLocation()
   const navigate = useNavigate()
   const [tasks, setTasks] = useState(null)
   const [search, setSearch] = useState('')
+  const [listUsers, setListUsers] = useState([])
+  const [updateList, setUpdateList] = useState(false)
+  const [worker, setWorker] = useState('')
+  const { isOpen, onOpen, onClose } = useDisclosure()
+  const { user } = UserAuth()
 
   useEffect(() => {
     if (!location.state.listId) {
-      navigate('/')
+      navigate('/todo-list-firebase/list')
     }
   }, [])
+
+  useEffect(() => {
+    const q = findAllLists(user.email)
+    onSnapshot(q, (querySnapshot) => {
+      setListUsers(
+        ...querySnapshot.docs
+          .filter((doc) => doc.id === location.state.listId)
+          .map((doc) => doc.data().users)
+      )
+    })
+  }, [updateList])
 
   useEffect(() => {
     const q = findAllTasks(location.state.listId)
@@ -40,18 +65,26 @@ function TaskPage() {
     })
   }, [])
 
-  const handleCreateTask = () => {
+  const handleCreateTask = (title, description) => {
     createTask(location.state.listId, {
       blocked: false,
       completed: false,
       createdAt: Timestamp.now(),
-      createBy: 'felipe',
-      title: 'titulo teste',
-      description: 'descriçao teste',
+      createBy: user.email,
+      title: title,
+      description: description,
     })
+    onClose()
   }
 
-  console.log(location.state.listId)
+  const handleAddUser = () => {
+    addUsersToList(location.state.listId, {
+      users: [...listUsers, worker],
+    })
+    setWorker('')
+    setUpdateList((prev) => !prev)
+  }
+
   return (
     <>
       <Flex align='center' justify='flex-start' direction='column'>
@@ -65,25 +98,35 @@ function TaskPage() {
             justifyContent='center'
             marginTop='80px'
             marginBottom='50px'
-            gap='5px'
+            gap='15px'
           >
             <Heading as='h3' size='lg'>
-              Oops.., Parece que você não está em nenhuma lista
+              Oops.., Parece que você não tem nenhuma tarefa
             </Heading>
-            <Heading as='h6' size='sm'>
-              Clique no botão abaixo e crie sua lista de tarefas
-            </Heading>
-            <Button
-              leftIcon={<AddIcon />}
-              colorScheme='teal'
-              variant='outline'
-              onClick={() => handleCreateTask()}
-            >
+            <Text>Clique no botão abaixo e crie sua lista de tarefas</Text>
+            <Button leftIcon={<AddIcon />} colorScheme='teal' variant='outline' onClick={onOpen}>
               Crie uma nova tarefa
             </Button>
           </Box>
         ) : (
           <>
+            <Box
+              w='100%'
+              display='flex'
+              flexDirection='row'
+              alignItems='center'
+              justifyContent='center'
+            >
+              <Input
+                size='md'
+                placeholder='adicione outros colaboradores a lista'
+                value={worker}
+                onChange={(e) => setWorker(e.target.value)}
+              />
+              <Button colorScheme='teal' leftIcon={<AddIcon />} onClick={() => handleAddUser()}>
+                Adicionar
+              </Button>
+            </Box>
             <Box
               w='100%'
               display='flex'
@@ -105,12 +148,7 @@ function TaskPage() {
                   onChange={(e) => setSearch(e.target.value)}
                 />
               </InputGroup>
-              <Button
-                leftIcon={<AddIcon />}
-                colorScheme='teal'
-                variant='outline'
-                onClick={() => handleCreateTask()}
-              >
+              <Button leftIcon={<AddIcon />} colorScheme='teal' variant='outline' onClick={onOpen}>
                 Crie uma nova tarefa
               </Button>
               <Divider orientation='horizontal' />
@@ -132,6 +170,7 @@ function TaskPage() {
           </>
         )}
       </Flex>
+      <CreateTaskModal isOpen={isOpen} onClose={onClose} handleCreate={handleCreateTask} />
     </>
   )
 }
