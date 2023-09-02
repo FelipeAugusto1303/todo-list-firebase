@@ -23,6 +23,7 @@ function CardTask({ taskData, listId, taskId }) {
   const { isOpen, onToggle } = useDisclosure()
   const { user } = UserAuth()
   const [owner, setOwner] = useState(null)
+  const { isOpen: isOpenModal, onOpen: onOpenModal, onClose: closeModal } = useDisclosure()
 
   useEffect(() => {
     const queryUser = getUser(taskData.createBy)
@@ -51,6 +52,14 @@ function CardTask({ taskData, listId, taskId }) {
 
   const eraseTask = () => {
     deleteTask(listId, taskId)
+  }
+
+  const updateFieldsTask = (title, description) => {
+    updateTask(listId, taskId, {
+      completed: false,
+      title: title,
+      description: description,
+    }).then(() => closeModal())
   }
   return (
     <>
@@ -116,7 +125,12 @@ function CardTask({ taskData, listId, taskId }) {
                 </Button>
               )}
               <Box display='flex' alignItems='center' gap='20px'>
-                <Button colorScheme='blue' variant='outline' isDisabled={taskData.blocked}>
+                <Button
+                  colorScheme='blue'
+                  variant='outline'
+                  isDisabled={taskData.blocked}
+                  onClick={onOpenModal}
+                >
                   Editar
                 </Button>
                 <Button colorScheme='red' isDisabled={taskData.blocked} onClick={() => eraseTask()}>
@@ -127,7 +141,13 @@ function CardTask({ taskData, listId, taskId }) {
           </Box>
         </Collapse>
       </Box>
-      <EditTaskModal />
+      <EditTaskModal
+        isOpen={isOpenModal}
+        onClose={closeModal}
+        handleUpdate={updateFieldsTask}
+        oldTitle={taskData.title}
+        oldDescription={taskData.description}
+      />
     </>
   )
 }
