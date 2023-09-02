@@ -1,7 +1,7 @@
 import { AddIcon } from '@chakra-ui/icons'
 import { Avatar, Box, Button, Input, Text, Tooltip } from '@chakra-ui/react'
 import React, { useEffect, useState } from 'react'
-import { addUsersToList, getUser } from '../../services/firebaseService'
+import { addUsersToList, getUser, updateList } from '../../services/firebaseService'
 import { onSnapshot } from 'firebase/firestore'
 
 function OwnerList({ worker, setWorker, listId, listUsers, setUpdateList }) {
@@ -16,6 +16,16 @@ function OwnerList({ worker, setWorker, listId, listUsers, setUpdateList }) {
       }
     })
     setAvatarUsers([...temp])
+  }
+
+  const removeWorker = (workerEmail) => {
+    const index = listUsers.indexOf(workerEmail)
+    const tempArray = listUsers
+
+    tempArray.splice(index, 1)
+    updateList(listId, {
+      users: [...tempArray],
+    })
   }
 
   useEffect(() => {
@@ -88,7 +98,7 @@ function OwnerList({ worker, setWorker, listId, listUsers, setUpdateList }) {
               key={index}
               label={avatar.name === 'Usuário desconhecido' ? avatar.email : avatar.name}
             >
-              <Avatar size='sm' src={avatar.photoURL} onClick={() => console.log(avatar)} />
+              <Avatar size='sm' src={avatar.photoURL} onClick={() => removeWorker(avatar.email)} />
             </Tooltip>
           ))}
       </Box>
