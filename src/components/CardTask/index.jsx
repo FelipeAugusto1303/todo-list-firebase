@@ -134,7 +134,7 @@ function CardTask({ taskData, listId, taskId }) {
           </Box>
         </Collapse>
       </Box>
-      <CreateTaskModal isOpen={isOpen} onClose={onClose} handleCreate={handleCreateTask} />
+      {/* <CreateTaskModal isOpen={isOpen} onClose={onClose} handleCreate={handleCreateTask} /> */}
     </>
   )
 }
