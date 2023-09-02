@@ -1,16 +1,8 @@
-import {
-  ChevronDownIcon,
-  ChevronUpIcon,
-  LockIcon,
-  NotAllowedIcon,
-  UnlockIcon,
-} from '@chakra-ui/icons'
+import { ChevronDownIcon, ChevronUpIcon, LockIcon, UnlockIcon } from '@chakra-ui/icons'
 import {
   Avatar,
   Box,
   Button,
-  Card,
-  CardBody,
   Collapse,
   Divider,
   Flex,
@@ -25,6 +17,7 @@ import { UserAuth } from '../../context/AuthContext'
 import { onSnapshot } from 'firebase/firestore'
 import CheckBoxOutlineBlankIcon from '@mui/icons-material/CheckBoxOutlineBlank'
 import CheckBoxIcon from '@mui/icons-material/CheckBox'
+import EditTaskModal from '../EditTaskModal'
 
 function CardTask({ taskData, listId, taskId }) {
   const { isOpen, onToggle } = useDisclosure()
@@ -134,6 +127,7 @@ function CardTask({ taskData, listId, taskId }) {
           </Box>
         </Collapse>
       </Box>
+      <EditTaskModal />
     </>
   )
 }
