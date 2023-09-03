@@ -9,6 +9,7 @@ import {
   Heading,
   Text,
   useDisclosure,
+  useToast,
 } from '@chakra-ui/react'
 import { format } from 'date-fns'
 import React, { useState, useEffect } from 'react'
@@ -24,6 +25,9 @@ function CardTask({ taskData, listId, taskId }) {
   const { user } = UserAuth()
   const [owner, setOwner] = useState(null)
   const { isOpen: isOpenModal, onOpen: onOpenModal, onClose: closeModal } = useDisclosure()
+  const toast = useToast()
+
+  console.log(taskData)
 
   useEffect(() => {
     const queryUser = getUser(taskData.createBy)
@@ -42,16 +46,83 @@ function CardTask({ taskData, listId, taskId }) {
     updateTask(listId, taskId, {
       blocked: !taskData.blocked,
     })
+      .then(() => {
+        if (!taskData.blocked) {
+          toast({
+            title: 'Tarefa bloqueada',
+            description:
+              'A tarefa foi bloqueada, desbloqueie para outros colaboradores poderem atualiza-la.',
+            status: 'info',
+            duration: 9000,
+            isClosable: true,
+            position: 'top-center',
+          })
+        }
+      })
+      .catch((err) => {
+        toast({
+          title: 'Error na requisição',
+          description: 'Houve um erro de requisição com o firebase',
+          status: 'error',
+          duration: 9000,
+          isClosable: true,
+          position: 'top-center',
+        })
+      })
   }
 
   const concludeTask = () => {
-    updateTask(listId, taskId, {
-      completed: !taskData.completed,
-    })
+    if (!taskData.blocked || taskData.createBy === user.email) {
+      updateTask(listId, taskId, {
+        completed: !taskData.completed,
+      })
+        .then(() => {
+          if (!taskData.completed) {
+            toast({
+              title: 'Tarefa completa',
+              description: 'A tarefa foi completada com sucesso.',
+              status: 'success',
+              duration: 9000,
+              isClosable: true,
+              position: 'top-center',
+            })
+          }
+        })
+        .catch((err) => {
+          toast({
+            title: 'Error na requisição',
+            description: 'Houve um erro de requisição com o firebase',
+            status: 'error',
+            duration: 9000,
+            isClosable: true,
+            position: 'top-center',
+          })
+        })
+    }
   }
 
   const eraseTask = () => {
     deleteTask(listId, taskId)
+      .then(() => {
+        toast({
+          title: 'Tarefa deletada',
+          description: 'A tarefa foi deletada com sucesso.',
+          status: 'success',
+          duration: 9000,
+          isClosable: true,
+          position: 'top-center',
+        })
+      })
+      .catch((err) => {
+        toast({
+          title: 'Error na requisição',
+          description: 'Houve um erro de requisição com o firebase',
+          status: 'error',
+          duration: 9000,
+          isClosable: true,
+          position: 'top-center',
+        })
+      })
   }
 
   const updateFieldsTask = (title, description) => {
@@ -59,7 +130,28 @@ function CardTask({ taskData, listId, taskId }) {
       completed: false,
       title: title,
       description: description,
-    }).then(() => closeModal())
+    })
+      .then(() => {
+        toast({
+          title: 'Tarefa atualizada',
+          description: 'A tarefa foi atualizada com sucesso.',
+          status: 'success',
+          duration: 9000,
+          isClosable: true,
+          position: 'top-center',
+        })
+        closeModal()
+      })
+      .catch((err) => {
+        toast({
+          title: 'Error na requisição',
+          description: 'Houve um erro de requisição com o firebase',
+          status: 'error',
+          duration: 9000,
+          isClosable: true,
+          position: 'top-center',
+        })
+      })
   }
   return (
     <>
@@ -121,19 +213,23 @@ function CardTask({ taskData, listId, taskId }) {
                   colorScheme={taskData.blocked ? 'blue' : 'red'}
                   onClick={() => blockTask()}
                 >
-                  {taskData.blocked ? 'Desbolquear' : 'Bloquear'}
+                  {taskData.blocked ? 'Desbloquear' : 'Bloquear'}
                 </Button>
               )}
               <Box display='flex' alignItems='center' gap='20px'>
                 <Button
                   colorScheme='blue'
                   variant='outline'
-                  isDisabled={taskData.blocked}
+                  isDisabled={taskData.blocked && !(taskData.createBy === user.email)}
                   onClick={onOpenModal}
                 >
                   Editar
                 </Button>
-                <Button colorScheme='red' isDisabled={taskData.blocked} onClick={() => eraseTask()}>
+                <Button
+                  colorScheme='red'
+                  isDisabled={taskData.blocked && !(taskData.createBy === user.email)}
+                  onClick={() => eraseTask()}
+                >
                   Excluir
                 </Button>
               </Box>

@@ -11,22 +11,22 @@ import {
   Image,
   Text,
   useDisclosure,
+  useToast,
 } from '@chakra-ui/react'
 import { format } from 'date-fns'
 import React, { useEffect, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { UserAuth } from '../../context/AuthContext'
 import { deleteList, getUser, updateList } from '../../services/firebaseService'
-import { QuerySnapshot, onSnapshot } from 'firebase/firestore'
+import { onSnapshot } from 'firebase/firestore'
 import EditListModal from '../EditListModal'
-
-// import { Container } from './styles';
 
 function CardList({ listData, listId }) {
   const navigate = useNavigate()
   const { user } = UserAuth()
   const [userData, setUserData] = useState(null)
   const { isOpen, onOpen, onClose } = useDisclosure()
+  const toast = useToast()
 
   const isOwner = user.email === listData.createdBy
 
@@ -44,12 +44,53 @@ function CardList({ listData, listId }) {
 
   const handleDelete = () => {
     deleteList(listId)
+      .then(() => {
+        toast({
+          title: 'Lista deletada com sucesso',
+          description: 'A lista foi deletada com sucesso',
+          status: 'success',
+          duration: 9000,
+          isClosable: true,
+          position: 'top-center',
+        })
+      })
+      .catch((err) => {
+        toast({
+          title: 'Error na requisição',
+          description: 'Houve um erro de requisição com o firebase',
+          status: 'error',
+          duration: 9000,
+          isClosable: true,
+          position: 'top-center',
+        })
+      })
   }
 
   const handleUpdate = (name) => {
     updateList(listId, {
       name: name,
-    }).then(() => onClose())
+    })
+      .then(() => {
+        onClose()
+        toast({
+          title: 'Lista atualizada com sucesso',
+          description: 'A lista foi atualizada com sucesso e já esta pronta pra uso.',
+          status: 'success',
+          duration: 9000,
+          isClosable: true,
+          position: 'top-center',
+        })
+      })
+      .catch((err) => {
+        toast({
+          title: 'Error na requisição',
+          description: 'Houve um erro de requisição com o firebase',
+          status: 'error',
+          duration: 9000,
+          isClosable: true,
+          position: 'top-center',
+        })
+      })
   }
 
   return (

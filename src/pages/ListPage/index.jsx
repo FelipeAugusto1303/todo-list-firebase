@@ -3,14 +3,13 @@ import {
   Flex,
   Box,
   Heading,
-  Stack,
   Input,
   Button,
-  IconButton,
   InputGroup,
   InputLeftElement,
   Divider,
   useDisclosure,
+  useToast,
 } from '@chakra-ui/react'
 import { createList, findAllLists } from '../../services/firebaseService'
 import { Timestamp, onSnapshot } from 'firebase/firestore'
@@ -27,6 +26,7 @@ function ListPage() {
   const { isOpen, onOpen, onClose } = useDisclosure()
   const { user } = UserAuth()
   const [isLoading, setIsLoading] = useState(true)
+  const toast = useToast()
 
   useEffect(() => {
     if (user !== null) {
@@ -50,7 +50,32 @@ function ListPage() {
       users: [user.email],
       createdAt: Timestamp.now(),
     }
-    createList(body)
+    createList({
+      name: name,
+      createdBy: user.email,
+      users: [user.email],
+      createdAt: Timestamp.now(),
+    })
+      .then(() => {
+        toast({
+          title: 'Lista criada com sucesso',
+          description: 'A lista foi criada com sucesso e já esta pronta pra uso.',
+          status: 'success',
+          duration: 9000,
+          isClosable: true,
+          position: 'top-center',
+        })
+      })
+      .catch((err) => {
+        toast({
+          title: 'Error na requisição',
+          description: 'Houve um erro de requisição com o firebase',
+          status: 'error',
+          duration: 9000,
+          isClosable: true,
+          position: 'top-center',
+        })
+      })
     onClose()
   }
 
@@ -118,7 +143,7 @@ function ListPage() {
               {/* elemento de lista de elementos */}
               <Box display='flex' flexDirection='row' flexWrap='wrap' gap='5px'>
                 {list
-                  .filter((l) => l.data.name.toLowerCase().includes(search))
+                  .filter((l) => l.data.name.toLowerCase().includes(search.toLowerCase()))
                   .sort((a, b) => {
                     return (
                       new Date(b.data.createdAt.seconds * 1000) -
