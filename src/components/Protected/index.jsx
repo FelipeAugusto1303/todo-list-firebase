@@ -1,13 +1,15 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { UserAuth } from '../../context/AuthContext'
 
 const Protected = ({ children }) => {
   const { user } = UserAuth()
   const navigate = useNavigate()
-  if (!user) {
-    navigate('/todo-list-firebase/')
-  }
+  useEffect(() => {
+    if (!user) {
+      navigate('todo-list-firebase/')
+    }
+  }, [user])
 
   return children
 }

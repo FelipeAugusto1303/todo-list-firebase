@@ -27,8 +27,6 @@ function CardTask({ taskData, listId, taskId }) {
   const { isOpen: isOpenModal, onOpen: onOpenModal, onClose: closeModal } = useDisclosure()
   const toast = useToast()
 
-  console.log(taskData)
-
   useEffect(() => {
     const queryUser = getUser(taskData.createBy)
 
