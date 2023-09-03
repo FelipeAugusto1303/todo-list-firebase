@@ -8,7 +8,13 @@ Firetask é uma to-do-list colaborativa online onde o usuário pode criar divers
 
 ```bash
 git clone https://github.com/FelipeAugusto1303/todo-list-firebase.git
+```
+
+```bash
 cd todo-list-firebase
+```
+
+```bash
 npm i
 ```
 
@@ -24,11 +30,11 @@ e acesse a pagina no endereço [https://localhost:5173/todo-list-firebase/](http
 
 ## Tecnologias utilizadas
 
-[Vite](https://vitejs.dev)
-[firebase](https://firebase.google.com/?hl=pt-br)
-[ChakraUI](https://chakra-ui.com)
-[react-router-dom](https://reactrouter.com/en/main)
-[date-fns](https://date-fns.org)
+[Vite](https://vitejs.dev) <br>
+[Firebase](https://firebase.google.com/?hl=pt-br) <br>
+[ChakraUI](https://chakra-ui.com)<br>
+[react-router-dom](https://reactrouter.com/en/main)<br>
+[date-fns](https://date-fns.org)<br>
 
 ### Autor
 
