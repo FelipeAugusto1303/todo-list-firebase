@@ -7,7 +7,7 @@ const Protected = ({ children }) => {
   const navigate = useNavigate()
   useEffect(() => {
     if (!user) {
-      navigate('todo-list-firebase/')
+      navigate('/todo-list-firebase/')
     }
   }, [user])
 

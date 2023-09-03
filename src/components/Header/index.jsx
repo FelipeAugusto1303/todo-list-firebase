@@ -26,7 +26,7 @@ function Header({ goback = false }) {
   const handleSignOut = async () => {
     try {
       await logOut()
-      navigate('/todo-list-firebase', {
+      navigate('/todo-list-firebase/', {
         state: {
           mode: 'logout',
         },
