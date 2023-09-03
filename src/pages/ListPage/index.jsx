@@ -19,12 +19,14 @@ import CreateListModal from '../../components/CreateListModal'
 import CardList from '../../components/CardList'
 import Header from '../../components/Header'
 import { UserAuth } from '../../context/AuthContext'
+import ListSkeleton from '../../components/ListSkeleton'
 
 function ListPage() {
   const [list, setList] = useState(null)
   const [search, setSearch] = useState('')
   const { isOpen, onOpen, onClose } = useDisclosure()
   const { user } = UserAuth()
+  const [isLoading, setIsLoading] = useState(true)
 
   useEffect(() => {
     if (user !== null) {
@@ -36,6 +38,7 @@ function ListPage() {
             data: doc.data(),
           }))
         )
+        setIsLoading(false)
       })
     }
   }, [user])
@@ -56,7 +59,9 @@ function ListPage() {
       <>
         <Flex align='center' justify='flex-start' direction='column'>
           <Header />
-          {list === null || list.length === 0 ? (
+          {isLoading ? (
+            <ListSkeleton />
+          ) : list === null || list.length === 0 ? (
             <Box
               h='500px'
               display='flex'
