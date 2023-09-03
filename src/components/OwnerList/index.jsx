@@ -67,7 +67,7 @@ function OwnerList({ worker, setWorker, listId, listUsers, setUpdateList, listCr
 
   const handleAddUser = () => {
     addUsersToList(listId, {
-      users: [...listUsers, worker],
+      users: [...listUsers, worker.toLowerCase()],
     })
       .then(() => {
         toast({

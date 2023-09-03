@@ -175,7 +175,7 @@ function TaskPage() {
               {/* elemento de lista de elementos */}
               <Box display='flex' flexDirection='column' w='100%' gap='5px'>
                 {tasks
-                  .filter((task) => task.data.title.toLowerCase().includes(search))
+                  .filter((task) => task.data.title.toLowerCase().includes(search.toLowerCase()))
                   .sort((a, b) => {
                     return (
                       new Date(b.data.createdAt.seconds * 1000) -
