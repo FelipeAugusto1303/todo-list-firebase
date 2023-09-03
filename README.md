@@ -2,7 +2,7 @@
 
 ## Descrição
 
-Firetask é uma to-do-list colaborativa online. O usuário de criar diversas listas de tarefas e compartilhar com quem desejar.
+Firetask é uma to-do-list colaborativa online onde o usuário pode criar diversas listas de tarefas e compartilhar com quem desejar.
 
 ## Instalação
 
