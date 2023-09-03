@@ -31,7 +31,7 @@ function EditListModal({ isOpen, onClose, handleEdit, title }) {
         </ModalBody>
         <ModalFooter>
           <Button colorScheme='teal' mr={3} onClick={() => handleEdit(name)}>
-            Criar
+            Editar
           </Button>
           <Button onClick={onClose} mr={3}>
             Cancelar

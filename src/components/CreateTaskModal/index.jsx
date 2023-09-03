@@ -40,7 +40,15 @@ function CreateTaskModal({ isOpen, onClose, handleCreate }) {
           />
         </ModalBody>
         <ModalFooter>
-          <Button colorScheme='teal' mr={3} onClick={() => handleCreate(name, description)}>
+          <Button
+            colorScheme='teal'
+            mr={3}
+            onClick={() => {
+              handleCreate(name, description)
+              setName('')
+              setDescription('')
+            }}
+          >
             Criar
           </Button>
           <Button onClick={onClose} mr={3}>

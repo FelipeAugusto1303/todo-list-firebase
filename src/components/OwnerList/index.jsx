@@ -1,12 +1,15 @@
 import { AddIcon } from '@chakra-ui/icons'
-import { Avatar, Box, Button, Input, Text, Tooltip } from '@chakra-ui/react'
+import { Avatar, Box, Button, Input, Text, Tooltip, useDisclosure } from '@chakra-ui/react'
 import React, { useEffect, useState } from 'react'
 import { addUsersToList, getUser, updateList } from '../../services/firebaseService'
 import { onSnapshot } from 'firebase/firestore'
+import UserModal from '../UserModal'
 
-function OwnerList({ worker, setWorker, listId, listUsers, setUpdateList }) {
+function OwnerList({ worker, setWorker, listId, listUsers, setUpdateList, listCreator }) {
   const [usersData, setUsersData] = useState([])
   const [avatarUsers, setAvatarUsers] = useState([])
+  const [modalData, setModalData] = useState({})
+  const { isOpen, onOpen, onClose } = useDisclosure()
 
   const removeDuplicates = (arr) => {
     const temp = []
@@ -16,16 +19,6 @@ function OwnerList({ worker, setWorker, listId, listUsers, setUpdateList }) {
       }
     })
     setAvatarUsers([...temp])
-  }
-
-  const removeWorker = (workerEmail) => {
-    const index = listUsers.indexOf(workerEmail)
-    const tempArray = listUsers
-
-    tempArray.splice(index, 1)
-    updateList(listId, {
-      users: [...tempArray],
-    })
   }
 
   useEffect(() => {
@@ -69,6 +62,25 @@ function OwnerList({ worker, setWorker, listId, listUsers, setUpdateList }) {
     setWorker('')
     setUpdateList((prev) => !prev)
   }
+
+  const removeWorker = (workerEmail) => {
+    const index = listUsers.indexOf(workerEmail)
+    const tempArray = listUsers
+
+    tempArray.splice(index, 1)
+    updateList(listId, {
+      users: [...tempArray],
+    })
+    setUsersData([])
+    setUpdateList((prev) => !prev)
+    onClose()
+  }
+
+  const handleOpenModal = (data) => {
+    setModalData(data)
+    onOpen()
+  }
+
   return (
     <>
       <Box
@@ -98,10 +110,17 @@ function OwnerList({ worker, setWorker, listId, listUsers, setUpdateList }) {
               key={index}
               label={avatar.name === 'Usuário desconhecido' ? avatar.email : avatar.name}
             >
-              <Avatar size='sm' src={avatar.photoURL} onClick={() => removeWorker(avatar.email)} />
+              <Avatar size='sm' src={avatar.photoURL} onClick={() => handleOpenModal(avatar)} />
             </Tooltip>
           ))}
       </Box>
+      <UserModal
+        isOpen={isOpen}
+        onClose={onClose}
+        userData={modalData}
+        handleRemoveWorker={removeWorker}
+        listCreator={listCreator}
+      />
     </>
   )
 }

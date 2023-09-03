@@ -33,7 +33,14 @@ function CreateListModal({ isOpen, onClose, handleCreate }) {
           />
         </ModalBody>
         <ModalFooter>
-          <Button colorScheme='teal' mr={3} onClick={() => handleCreate(name)}>
+          <Button
+            colorScheme='teal'
+            mr={3}
+            onClick={() => {
+              handleCreate(name)
+              setName('')
+            }}
+          >
             Criar
           </Button>
           <Button onClick={onClose} mr={3}>

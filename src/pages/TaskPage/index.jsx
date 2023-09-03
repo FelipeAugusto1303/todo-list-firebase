@@ -112,6 +112,7 @@ function TaskPage() {
                 listId={location.state.listId}
                 listUsers={listUsers}
                 setUpdateList={setUpdateList}
+                listCreator={location.state.listCreator}
               />
               <Box
                 w='100%'

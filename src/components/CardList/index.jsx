@@ -66,6 +66,7 @@ function CardList({ listData, listId }) {
                   state: {
                     listId: listId,
                     listUsers: listData.users,
+                    listCreator: listData.createdBy,
                   },
                 })
               }
