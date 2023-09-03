@@ -18,6 +18,7 @@ import {
   InputLeftElement,
   Text,
   useDisclosure,
+  useToast,
 } from '@chakra-ui/react'
 import Header from '../../components/Header'
 import { AddIcon, SearchIcon } from '@chakra-ui/icons'
@@ -25,6 +26,7 @@ import CardTask from '../../components/CardTask'
 import CreateTaskModal from '../../components/CreateTaskModal'
 import { UserAuth } from '../../context/AuthContext'
 import OwnerList from '../../components/OwnerList'
+import TaskSkeleton from '../../components/TaskSkeleton'
 
 function TaskPage() {
   const location = useLocation()
@@ -36,6 +38,8 @@ function TaskPage() {
   const [worker, setWorker] = useState('')
   const { isOpen, onOpen, onClose } = useDisclosure()
   const { user } = UserAuth()
+  const [isLoading, setIsLoading] = useState(true)
+  const toast = useToast()
 
   useEffect(() => {
     if (!location.state.listId) {
@@ -65,6 +69,7 @@ function TaskPage() {
           data: doc.data(),
         }))
       )
+      setIsLoading(false)
     })
   }, [])
 
@@ -77,6 +82,26 @@ function TaskPage() {
       title: title,
       description: description,
     })
+      .then(() => {
+        toast({
+          title: 'Tarefa criada',
+          description: 'A tarefa foi criada com sucesso.',
+          status: 'success',
+          duration: 9000,
+          isClosable: true,
+          position: 'top-center',
+        })
+      })
+      .catch((err) => {
+        toast({
+          title: 'Error na requisição',
+          description: 'Houve um erro de requisição com o firebase',
+          status: 'error',
+          duration: 9000,
+          isClosable: true,
+          position: 'top-center',
+        })
+      })
     onClose()
   }
 
@@ -85,7 +110,9 @@ function TaskPage() {
       <>
         <Flex align='center' justify='flex-start' direction='column'>
           <Header goback />
-          {tasks === null || tasks.length === 0 ? (
+          {isLoading ? (
+            <TaskSkeleton />
+          ) : tasks === null || tasks.length === 0 ? (
             <Box
               h='500px'
               display='flex'

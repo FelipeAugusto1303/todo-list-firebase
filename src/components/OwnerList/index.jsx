@@ -1,5 +1,14 @@
 import { AddIcon } from '@chakra-ui/icons'
-import { Avatar, Box, Button, Input, Text, Tooltip, useDisclosure } from '@chakra-ui/react'
+import {
+  Avatar,
+  Box,
+  Button,
+  Input,
+  Text,
+  Tooltip,
+  useDisclosure,
+  useToast,
+} from '@chakra-ui/react'
 import React, { useEffect, useState } from 'react'
 import { addUsersToList, getUser, updateList } from '../../services/firebaseService'
 import { onSnapshot } from 'firebase/firestore'
@@ -10,6 +19,7 @@ function OwnerList({ worker, setWorker, listId, listUsers, setUpdateList, listCr
   const [avatarUsers, setAvatarUsers] = useState([])
   const [modalData, setModalData] = useState({})
   const { isOpen, onOpen, onClose } = useDisclosure()
+  const toast = useToast()
 
   const removeDuplicates = (arr) => {
     const temp = []
@@ -59,6 +69,26 @@ function OwnerList({ worker, setWorker, listId, listUsers, setUpdateList, listCr
     addUsersToList(listId, {
       users: [...listUsers, worker],
     })
+      .then(() => {
+        toast({
+          title: 'Colaborador adicionado',
+          description: 'Colaborador foi adicionado a lista com sucesso.',
+          status: 'success',
+          duration: 9000,
+          isClosable: true,
+          position: 'top-center',
+        })
+      })
+      .catch((err) => {
+        toast({
+          title: 'Error na requisição',
+          description: 'Houve um erro de requisição com o firebase',
+          status: 'error',
+          duration: 9000,
+          isClosable: true,
+          position: 'top-center',
+        })
+      })
     setWorker('')
     setUpdateList((prev) => !prev)
   }
@@ -71,6 +101,26 @@ function OwnerList({ worker, setWorker, listId, listUsers, setUpdateList, listCr
     updateList(listId, {
       users: [...tempArray],
     })
+      .then(() => {
+        toast({
+          title: 'Colaborador removido',
+          description: 'Colaborador foi removido da lista com sucesso.',
+          status: 'success',
+          duration: 9000,
+          isClosable: true,
+          position: 'top-center',
+        })
+      })
+      .catch((err) => {
+        toast({
+          title: 'Error na requisição',
+          description: 'Houve um erro de requisição com o firebase',
+          status: 'error',
+          duration: 9000,
+          isClosable: true,
+          position: 'top-center',
+        })
+      })
     setUsersData([])
     setUpdateList((prev) => !prev)
     onClose()
