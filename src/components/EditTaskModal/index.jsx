@@ -25,6 +25,7 @@ function EditTaskModal({ isOpen, onClose, handleUpdate, oldTitle, oldDescription
         <ModalCloseButton />
         <ModalBody pb={2} gap='10px'>
           <Input
+            name='task'
             size='md'
             placeholder='Digite o titulo da tarefa'
             value={name}
@@ -32,13 +33,19 @@ function EditTaskModal({ isOpen, onClose, handleUpdate, oldTitle, oldDescription
             onChange={(e) => setName(e.target.value)}
           />
           <Textarea
+            name='description'
             placeholder='Faça uma breve descrição da atividade'
             value={description}
             onChange={(e) => setDescription(e.target.value)}
           />
         </ModalBody>
         <ModalFooter>
-          <Button colorScheme='blue' mr={3} onClick={() => handleUpdate(name, description)}>
+          <Button
+            data-testid='edit-button'
+            colorScheme='blue'
+            mr={3}
+            onClick={() => handleUpdate(name, description)}
+          >
             Editar
           </Button>
           <Button onClick={onClose} mr={3}>

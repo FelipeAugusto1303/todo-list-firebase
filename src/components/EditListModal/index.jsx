@@ -30,7 +30,12 @@ function EditListModal({ isOpen, onClose, handleEdit, title }) {
           />
         </ModalBody>
         <ModalFooter>
-          <Button colorScheme='teal' mr={3} onClick={() => handleEdit(name)}>
+          <Button
+            data-testid='button-edit'
+            colorScheme='teal'
+            mr={3}
+            onClick={() => handleEdit(name)}
+          >
             Editar
           </Button>
           <Button onClick={onClose} mr={3}>

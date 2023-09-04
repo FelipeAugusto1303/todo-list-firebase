@@ -171,7 +171,12 @@ function CardTask({ taskData, listId, taskId, user }) {
             {taskData.title}
           </Heading>
           <Flex alignItems='center' gap='20px'>
-            <Flex alignItems='center' justifyContent='center' onClick={() => concludeTask()}>
+            <Flex
+              data-testid='conclude-task'
+              alignItems='center'
+              justifyContent='center'
+              onClick={() => concludeTask()}
+            >
               {taskData.completed ? (
                 <CheckBoxIcon data-testid='completed-icon' />
               ) : (

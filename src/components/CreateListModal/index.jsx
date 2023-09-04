@@ -24,6 +24,7 @@ function CreateListModal({ isOpen, onClose, handleCreate }) {
         <ModalCloseButton />
         <ModalBody pb={2}>
           <Input
+            data-testid='create-input'
             size='md'
             placeholder='Digite o nome da lista'
             value={name}
