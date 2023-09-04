@@ -28,6 +28,20 @@ npm run dev
 
 e acesse a pagina no endereço [https://localhost:5173/todo-list-firebase/](https://localhost:5173/todo-list-firebase/)
 
+## Testes
+
+para executar os testes unitarios basta executar o comando no terminal
+
+```bash
+npm test
+```
+
+para executar o cypress basta executar o comando
+
+```bash
+npx cypress open
+```
+
 ## Tecnologias utilizadas
 
 [Vite](https://vitejs.dev) <br>
@@ -35,7 +49,13 @@ e acesse a pagina no endereço [https://localhost:5173/todo-list-firebase/](http
 [ChakraUI](https://chakra-ui.com)<br>
 [react-router-dom](https://reactrouter.com/en/main)<br>
 [date-fns](https://date-fns.org)<br>
+[Vitest](https://vitest.dev)<br>
+[Cypress](https://docs.cypress.io/guides/getting-started/installing-cypress)<br>
 
 ### Autor
 
 [Felipe_Augusto_Souza_Guimaraes](https://www.linkedin.com/in/fasguimaraes/)
+
+```
+
+```
