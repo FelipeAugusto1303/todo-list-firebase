@@ -50,7 +50,7 @@ function CardTask({ taskData, listId, taskId, user }) {
             description:
               'A tarefa foi bloqueada, desbloqueie para outros colaboradores poderem atualiza-la.',
             status: 'info',
-            duration: 9000,
+            duration: 2000,
             isClosable: true,
             position: 'top-center',
           })
@@ -61,7 +61,7 @@ function CardTask({ taskData, listId, taskId, user }) {
           title: 'Error na requisição',
           description: 'Houve um erro de requisição com o firebase',
           status: 'error',
-          duration: 9000,
+          duration: 2000,
           isClosable: true,
           position: 'top-center',
         })
@@ -79,7 +79,7 @@ function CardTask({ taskData, listId, taskId, user }) {
               title: 'Tarefa completa',
               description: 'A tarefa foi completada com sucesso.',
               status: 'success',
-              duration: 9000,
+              duration: 2000,
               isClosable: true,
               position: 'top-center',
             })
@@ -90,7 +90,7 @@ function CardTask({ taskData, listId, taskId, user }) {
             title: 'Error na requisição',
             description: 'Houve um erro de requisição com o firebase',
             status: 'error',
-            duration: 9000,
+            duration: 2000,
             isClosable: true,
             position: 'top-center',
           })
@@ -105,7 +105,7 @@ function CardTask({ taskData, listId, taskId, user }) {
           title: 'Tarefa deletada',
           description: 'A tarefa foi deletada com sucesso.',
           status: 'success',
-          duration: 9000,
+          duration: 2000,
           isClosable: true,
           position: 'top-center',
         })
@@ -115,7 +115,7 @@ function CardTask({ taskData, listId, taskId, user }) {
           title: 'Error na requisição',
           description: 'Houve um erro de requisição com o firebase',
           status: 'error',
-          duration: 9000,
+          duration: 2000,
           isClosable: true,
           position: 'top-center',
         })
@@ -133,7 +133,7 @@ function CardTask({ taskData, listId, taskId, user }) {
           title: 'Tarefa atualizada',
           description: 'A tarefa foi atualizada com sucesso.',
           status: 'success',
-          duration: 9000,
+          duration: 2000,
           isClosable: true,
           position: 'top-center',
         })
@@ -144,7 +144,7 @@ function CardTask({ taskData, listId, taskId, user }) {
           title: 'Error na requisição',
           description: 'Houve um erro de requisição com o firebase',
           status: 'error',
-          duration: 9000,
+          duration: 2000,
           isClosable: true,
           position: 'top-center',
         })

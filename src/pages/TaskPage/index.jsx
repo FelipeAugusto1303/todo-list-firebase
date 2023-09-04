@@ -87,7 +87,7 @@ function TaskPage() {
           title: 'Tarefa criada',
           description: 'A tarefa foi criada com sucesso.',
           status: 'success',
-          duration: 9000,
+          duration: 2000,
           isClosable: true,
           position: 'top-center',
         })
@@ -97,7 +97,7 @@ function TaskPage() {
           title: 'Error na requisição',
           description: 'Houve um erro de requisição com o firebase',
           status: 'error',
-          duration: 9000,
+          duration: 2000,
           isClosable: true,
           position: 'top-center',
         })

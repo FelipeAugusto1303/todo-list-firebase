@@ -47,7 +47,7 @@ function CardList({ listData, listId, user }) {
           title: 'Lista deletada com sucesso',
           description: 'A lista foi deletada com sucesso',
           status: 'success',
-          duration: 9000,
+          duration: 2000,
           isClosable: true,
           position: 'top-center',
         })
@@ -57,7 +57,7 @@ function CardList({ listData, listId, user }) {
           title: 'Error na requisição',
           description: 'Houve um erro de requisição com o firebase',
           status: 'error',
-          duration: 9000,
+          duration: 2000,
           isClosable: true,
           position: 'top-center',
         })
@@ -74,7 +74,7 @@ function CardList({ listData, listId, user }) {
           title: 'Lista atualizada com sucesso',
           description: 'A lista foi atualizada com sucesso e já esta pronta pra uso.',
           status: 'success',
-          duration: 9000,
+          duration: 2000,
           isClosable: true,
           position: 'top-center',
         })
@@ -84,7 +84,7 @@ function CardList({ listData, listId, user }) {
           title: 'Error na requisição',
           description: 'Houve um erro de requisição com o firebase',
           status: 'error',
-          duration: 9000,
+          duration: 2000,
           isClosable: true,
           position: 'top-center',
         })

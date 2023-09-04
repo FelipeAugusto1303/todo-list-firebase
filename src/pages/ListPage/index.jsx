@@ -61,7 +61,7 @@ function ListPage() {
           title: 'Lista criada com sucesso',
           description: 'A lista foi criada com sucesso e já esta pronta pra uso.',
           status: 'success',
-          duration: 9000,
+          duration: 2000,
           isClosable: true,
           position: 'top-center',
         })
@@ -71,7 +71,7 @@ function ListPage() {
           title: 'Error na requisição',
           description: 'Houve um erro de requisição com o firebase',
           status: 'error',
-          duration: 9000,
+          duration: 2000,
           isClosable: true,
           position: 'top-center',
         })

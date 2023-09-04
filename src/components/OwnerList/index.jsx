@@ -74,7 +74,7 @@ function OwnerList({ worker, setWorker, listId, listUsers, setUpdateList, listCr
           title: 'Colaborador adicionado',
           description: 'Colaborador foi adicionado a lista com sucesso.',
           status: 'success',
-          duration: 9000,
+          duration: 2000,
           isClosable: true,
           position: 'top-center',
         })
@@ -84,7 +84,7 @@ function OwnerList({ worker, setWorker, listId, listUsers, setUpdateList, listCr
           title: 'Error na requisição',
           description: 'Houve um erro de requisição com o firebase',
           status: 'error',
-          duration: 9000,
+          duration: 2000,
           isClosable: true,
           position: 'top-center',
         })
@@ -106,7 +106,7 @@ function OwnerList({ worker, setWorker, listId, listUsers, setUpdateList, listCr
           title: 'Colaborador removido',
           description: 'Colaborador foi removido da lista com sucesso.',
           status: 'success',
-          duration: 9000,
+          duration: 2000,
           isClosable: true,
           position: 'top-center',
         })
@@ -116,7 +116,7 @@ function OwnerList({ worker, setWorker, listId, listUsers, setUpdateList, listCr
           title: 'Error na requisição',
           description: 'Houve um erro de requisição com o firebase',
           status: 'error',
-          duration: 9000,
+          duration: 2000,
           isClosable: true,
           position: 'top-center',
         })
