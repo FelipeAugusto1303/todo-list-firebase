@@ -109,7 +109,7 @@ function TaskPage() {
     user && (
       <>
         <Flex align='center' justify='flex-start' direction='column'>
-          <Header goback />
+          <Header goback user={user} />
           {isLoading ? (
             <TaskSkeleton />
           ) : tasks === null || tasks.length === 0 ? (
@@ -189,6 +189,7 @@ function TaskPage() {
                         taskData={task.data}
                         listId={location.state.listId}
                         taskId={task.id}
+                        user={user}
                       />
                     )
                   })}

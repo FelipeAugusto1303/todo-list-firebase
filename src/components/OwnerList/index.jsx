@@ -134,6 +134,7 @@ function OwnerList({ worker, setWorker, listId, listUsers, setUpdateList, listCr
   return (
     <>
       <Box
+        data-testid='owner-list'
         w='100%'
         display='flex'
         flexDirection='row'
@@ -143,6 +144,7 @@ function OwnerList({ worker, setWorker, listId, listUsers, setUpdateList, listCr
         mt='80px'
       >
         <Input
+          data-testid='owner-input'
           size='md'
           placeholder='adicione outros colaboradores a lista'
           value={worker}

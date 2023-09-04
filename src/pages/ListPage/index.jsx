@@ -83,7 +83,7 @@ function ListPage() {
     user && (
       <>
         <Flex align='center' justify='flex-start' direction='column'>
-          <Header />
+          <Header user={user} />
           {isLoading ? (
             <ListSkeleton />
           ) : list === null || list.length === 0 ? (
@@ -151,7 +151,7 @@ function ListPage() {
                     )
                   })
                   .map((l) => {
-                    return <CardList key={l.id} listId={l.id} listData={l.data} />
+                    return <CardList key={l.id} listId={l.id} listData={l.data} user={user} />
                   })}
               </Box>
             </>

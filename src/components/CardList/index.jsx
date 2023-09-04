@@ -16,14 +16,12 @@ import {
 import { format } from 'date-fns'
 import React, { useEffect, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
-import { UserAuth } from '../../context/AuthContext'
 import { deleteList, getUser, updateList } from '../../services/firebaseService'
 import { onSnapshot } from 'firebase/firestore'
 import EditListModal from '../EditListModal'
 
-function CardList({ listData, listId }) {
+function CardList({ listData, listId, user }) {
   const navigate = useNavigate()
-  const { user } = UserAuth()
   const [userData, setUserData] = useState(null)
   const { isOpen, onOpen, onClose } = useDisclosure()
   const toast = useToast()
@@ -95,7 +93,7 @@ function CardList({ listData, listId }) {
 
   return (
     <>
-      <Card w='400px' h='250px' border='1px solid #000'>
+      <Card data-testid='chakra-card' w='400px' h='250px' border='1px solid #000'>
         <CardHeader>
           <Flex flexDirection='row' alignItems='center' justifyContent='space-between'>
             <Heading size='md'>{listData.name}</Heading>
@@ -123,7 +121,7 @@ function CardList({ listData, listId }) {
         </CardBody>
         <Divider orientation='horizontal' />
         {userData && (
-          <CardFooter>
+          <CardFooter data-testid='card-footer'>
             <Flex
               flexDirection='row'
               alignItems='center'

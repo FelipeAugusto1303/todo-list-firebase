@@ -12,8 +12,6 @@ import {
 } from '@chakra-ui/react'
 import React, { useRef, useState } from 'react'
 
-// import { Container } from './styles';
-
 function CreateListModal({ isOpen, onClose, handleCreate }) {
   const initialRef = useRef(null)
   const [name, setName] = useState('')

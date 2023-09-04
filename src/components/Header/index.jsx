@@ -17,8 +17,8 @@ import { createUser, getUser } from '../../services/firebaseService'
 import { onSnapshot } from 'firebase/firestore'
 import { ArrowBackIcon } from '@chakra-ui/icons'
 
-function Header({ goback = false }) {
-  const { logOut, user } = UserAuth()
+function Header({ goback = false, user }) {
+  const { logOut } = UserAuth()
   const [listUser, setListUser] = useState(null)
   const [userMenu, setUserMenu] = useState(false)
   const navigate = useNavigate()
@@ -73,13 +73,14 @@ function Header({ goback = false }) {
           justifyContent='center'
           gap='5px'
         >
-          {goback && <ArrowBackIcon onClick={() => navigate(-1)} />}
+          {goback && <ArrowBackIcon data-testid='back-icon' onClick={() => navigate(-1)} />}
           <Heading as='h6' size='sm'>
             FireTask <LocalFireDepartment fontSize='20px' color='red' />
           </Heading>
         </Box>
         <Box position='relative'>
           <Image
+            data-testid='profile-image'
             src={
               user
                 ? user.photoURL
@@ -103,7 +104,13 @@ function Header({ goback = false }) {
                     gap='20px'
                     p='20px'
                   >
-                    <Image src={user.photoURL} boxSize='100px' borderRadius='100px' mt='20px' />
+                    <Image
+                      data-testid='menu-profile-image'
+                      src={user.photoURL}
+                      boxSize='100px'
+                      borderRadius='100px'
+                      mt='20px'
+                    />
                     <Heading as='h6' size='md'>
                       Olá, {user.displayName}
                     </Heading>

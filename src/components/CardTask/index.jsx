@@ -20,9 +20,8 @@ import CheckBoxOutlineBlankIcon from '@mui/icons-material/CheckBoxOutlineBlank'
 import CheckBoxIcon from '@mui/icons-material/CheckBox'
 import EditTaskModal from '../EditTaskModal'
 
-function CardTask({ taskData, listId, taskId }) {
+function CardTask({ taskData, listId, taskId, user }) {
   const { isOpen, onToggle } = useDisclosure()
-  const { user } = UserAuth()
   const [owner, setOwner] = useState(null)
   const { isOpen: isOpenModal, onOpen: onOpenModal, onClose: closeModal } = useDisclosure()
   const toast = useToast()
@@ -173,9 +172,15 @@ function CardTask({ taskData, listId, taskId }) {
           </Heading>
           <Flex alignItems='center' gap='20px'>
             <Flex alignItems='center' justifyContent='center' onClick={() => concludeTask()}>
-              {taskData.completed ? <CheckBoxIcon /> : <CheckBoxOutlineBlankIcon />}
+              {taskData.completed ? (
+                <CheckBoxIcon data-testid='completed-icon' />
+              ) : (
+                <CheckBoxOutlineBlankIcon />
+              )}
             </Flex>
-            <Box onClick={onToggle}>{isOpen ? <ChevronUpIcon /> : <ChevronDownIcon />}</Box>
+            <Box data-testid='open-collapse' onClick={onToggle}>
+              {isOpen ? <ChevronUpIcon /> : <ChevronDownIcon />}
+            </Box>
           </Flex>
         </Flex>
         <Collapse in={isOpen} animateOpacity>
@@ -189,6 +194,7 @@ function CardTask({ taskData, listId, taskId }) {
               <Flex alignItems='center' justifyContent='center' gap='10px'>
                 <Text>Criado por:</Text>
                 <Avatar
+                  data-testid='card-avatar'
                   src={
                     owner !== null
                       ? owner[0].data.photoURL
