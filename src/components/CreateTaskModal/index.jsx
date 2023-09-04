@@ -43,6 +43,7 @@ function CreateTaskModal({ isOpen, onClose, handleCreate }) {
           <Button
             colorScheme='teal'
             mr={3}
+            disabled={name === '' || description === ''}
             onClick={() => {
               handleCreate(name, description)
               setName('')

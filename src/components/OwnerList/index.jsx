@@ -150,7 +150,12 @@ function OwnerList({ worker, setWorker, listId, listUsers, setUpdateList, listCr
           value={worker}
           onChange={(e) => setWorker(e.target.value)}
         />
-        <Button colorScheme='teal' leftIcon={<AddIcon />} onClick={() => handleAddUser()}>
+        <Button
+          colorScheme='teal'
+          leftIcon={<AddIcon />}
+          disabled={worker === ''}
+          onClick={() => handleAddUser()}
+        >
           Adicionar
         </Button>
       </Box>

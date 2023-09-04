@@ -44,6 +44,7 @@ function EditTaskModal({ isOpen, onClose, handleUpdate, oldTitle, oldDescription
             data-testid='edit-button'
             colorScheme='blue'
             mr={3}
+            disabled={name == '' || description === ''}
             onClick={() => handleUpdate(name, description)}
           >
             Editar

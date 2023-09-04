@@ -34,6 +34,7 @@ function EditListModal({ isOpen, onClose, handleEdit, title }) {
             data-testid='button-edit'
             colorScheme='teal'
             mr={3}
+            disabled={name === ''}
             onClick={() => handleEdit(name)}
           >
             Editar

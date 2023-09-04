@@ -35,6 +35,7 @@ function CreateListModal({ isOpen, onClose, handleCreate }) {
           <Button
             colorScheme='teal'
             mr={3}
+            disabled={name === ''}
             onClick={() => {
               handleCreate(name)
               setName('')
