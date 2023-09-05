@@ -55,7 +55,3 @@ npx cypress open
 ### Autor
 
 [Felipe_Augusto_Souza_Guimaraes](https://www.linkedin.com/in/fasguimaraes/)
-
-```
-
-```
